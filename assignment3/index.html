@@ -23,6 +23,11 @@
 
     <!-- found-items should be implemented as a component -->
     <ol>
+	  <li ng-repeat="item in ctrl.found">
+		 of {{ item.name }}
+		<!--<button ng-click="ctrl.onRemove({index: $index});">Don't want this one!</button>-->
+	  </li>
+	
 	<found-items ng-repeat="item in ctrl.found" >
 		<!--found="ctrl.found" -->
 		<!--on-remove="ctrl.removeItem(index)"> -->
