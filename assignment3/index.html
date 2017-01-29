@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles/bootstrap.min.css">
     <link rel="stylesheet" href="styles/styles.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
-	<!--<script src="scripts/angular.min.js"><script/>-->
+	<!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script> -->
+	<script src="scripts/angular.min.js"><script/>
 	<script src="scripts/app.js"></script>
   </head>
-<body ng-app="NarrowItDownApp">
+  <body ng-app="NarrowItDownApp">
    <div class="container" ng-controller="NarrowItDownController as ctrl">
     <h1>Narrow Down Your Chinese Menu Choice</h1>
 
@@ -22,21 +22,12 @@
     </div>
 
     <!-- found-items should be implemented as a component -->
-    <ol>
-	  <li ng-repeat="item in ctrl.found">
-		 of {{ item.name }}
-		<!--<button ng-click="ctrl.onRemove({index: $index});">Don't want this one!</button>-->
-	  </li>
-	
-	<found-items ng-repeat="item in ctrl.found" >
-		<!--found="ctrl.found" -->
-		<!--on-remove="ctrl.removeItem(index)"> -->
+	<found-items found="ctrl.matchFoundItems"> <!--on-remove="ctrl.removeItem(index)">-->
 	</found-items>
-	</ol>
 	
-	<div ng-if="ctrl.found.length > 0">si hay</div>
+	<div ng-if="ctrl.matchFoundItems.length > 0">si hay</div>
 	
-	{{ctrl.found[3].name}}
+	{{ctrl.matchFoundItems[3].name}}
   </div>
 
 </body>

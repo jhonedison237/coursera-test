@@ -9,14 +9,14 @@ angular.module('NarrowItDownApp', [])
 
 function FoundItemsDirective() {
   var ddo = {
-    templateUrl: 'template.html'
-    //scope: {
-      //found: '<',
+    templateUrl: 'template.html',
+    scope: {
+      found: '<'
       //onRemove: '&'
-    //},
+    }
     //controller: NarrowItDownDirectiveController,
     //controllerAs: 'ctrl',
-    //bindToController: true//,
+    //bindToController: true,
     //link: xxxDirectiveLink,
     //transclude: true
   };
@@ -28,7 +28,6 @@ NarrowItDownController.Sinject = ['MenuSearchService'];
 function NarrowItDownController(MenuSearchService) {
 	
 	var ctrl = this;
-	ctrl.found = 1;
 	
 	ctrl.search = function() {
 		
@@ -36,18 +35,26 @@ function NarrowItDownController(MenuSearchService) {
 		
 		promise.then(function (result) {
 			// process result and only keep items that match
-			var foundItems = result.data
+			var foundItems = result.data;
+			var matchFoundItems;
 
-			console.log("foundItem:" + result.data)
-			ctrl.found = foundItems;
-			alert("foundItems: " + ctrl.found[3].name + " lenght: " + ctrl.found.length);
+			//for (var i = 0; i < foundItems.length; i++) {
+			//  var name = foundItems[i].name;
+			//  if (name.indexOf(ctrl.searchTerm) !== -1) {
+			//	matchFoundItems.push(foundItems[i]);
+			//  }
+			//}
+			
+			ctrl.matchFoundItems = foundItems;
+			alert('foundItems.length= ' + foundItems);
+			
 		}).catch(function (error) {
 			console.log("Something went terribly wrong.");
 		});
 	}
 		
 	ctrl.removeItem = function(index) {
-		alert("remove");
+		alert("remove index: " + index);
 	}
 }
 
@@ -60,18 +67,12 @@ function MenuSearchService($http, ApiBasePath) {
 	
 	service.getMatchedMenuItems = function(searchTerm) {
 		
-		alert("searchTerm: " + searchTerm);
-		
 		return $http({
 		  method: "GET",
-		  url: (ApiBasePath + "/categories.json"),
-		  params: {
-			category: searchTerm
-		  }
+		  url: (ApiBasePath + "/menu_items.json")
 		});
 	}
 	
 }
-
 
 })();
