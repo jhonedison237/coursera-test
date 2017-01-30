@@ -5,26 +5,21 @@ angular.module('NarrowItDownApp', [])
 .controller('NarrowItDownController', NarrowItDownController)
 .service('MenuSearchService', MenuSearchService)
 .directive('foundItems', FoundItemsDirective)
-.constant('ApiBasePath', "https://davids-restaurant.herokuapp.com");
+.constant('ApiBasePath', "http://davids-restaurant.herokuapp.com");
 
 function FoundItemsDirective() {
   var ddo = {
     templateUrl: 'template.html',
     scope: {
-      found: '<'
-      //onRemove: '&'
+      found: '<',
+      onRemove: '&'
     }
-    //controller: NarrowItDownDirectiveController,
-    //controllerAs: 'ctrl',
-    //bindToController: true,
-    //link: xxxDirectiveLink,
-    //transclude: true
   };
 
   return ddo;
 }
 
-NarrowItDownController.Sinject = ['MenuSearchService'];
+NarrowItDownController.$inject = ['MenuSearchService'];
 function NarrowItDownController(MenuSearchService) {
 	
 	var ctrl = this;
@@ -34,19 +29,19 @@ function NarrowItDownController(MenuSearchService) {
 		var promise = MenuSearchService.getMatchedMenuItems(ctrl.searchTerm);
 		
 		promise.then(function (result) {
-			// process result and only keep items that match
-			var foundItems = result.data;
-			var matchFoundItems;
-
-			//for (var i = 0; i < foundItems.length; i++) {
-			//  var name = foundItems[i].name;
-			//  if (name.indexOf(ctrl.searchTerm) !== -1) {
-			//	matchFoundItems.push(foundItems[i]);
-			//  }
-			//}
 			
-			ctrl.matchFoundItems = foundItems;
-			alert('foundItems.length= ' + foundItems);
+			// process result and only keep items that match
+			var foundItems = result.data.menu_items;
+			var matchFoundItems = [];
+
+			for (var i = 0; i < foundItems.length; i++) {
+			  var name = foundItems[i].description;
+			  if (name.indexOf(ctrl.searchTerm) !== -1) {
+				matchFoundItems.push(foundItems[i]);
+			  }
+			}
+			
+			ctrl.found = matchFoundItems;
 			
 		}).catch(function (error) {
 			console.log("Something went terribly wrong.");
@@ -54,16 +49,13 @@ function NarrowItDownController(MenuSearchService) {
 	}
 		
 	ctrl.removeItem = function(index) {
-		alert("remove index: " + index);
+		ctrl.found.splice(index, 1);
 	}
 }
 
-MenuSearchService.Sinject = ['$http', 'ApiBasePath']; 
+MenuSearchService.$inject = ['$http', 'ApiBasePath']; 
 function MenuSearchService($http, ApiBasePath) {
 	var service = this;
-	
-	// List of matched found items
-	var items = [];
 	
 	service.getMatchedMenuItems = function(searchTerm) {
 		

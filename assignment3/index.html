@@ -6,29 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles/bootstrap.min.css">
     <link rel="stylesheet" href="styles/styles.css">
-	<!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script> -->
-	<script src="scripts/angular.min.js"><script/>
+	<script src="scripts/angular.min.js"></script>
 	<script src="scripts/app.js"></script>
   </head>
   <body ng-app="NarrowItDownApp">
-   <div class="container" ng-controller="NarrowItDownController as ctrl">
-    <h1>Narrow Down Your Chinese Menu Choice</h1>
-
-    <div class="form-group">
-      <input type="text" placeholder="search term" class="form-control" ng-model="ctrl.searchTerm">
-    </div>
-    <div class="form-group narrow-button">
-      <button class="btn btn-primary" ng-click="ctrl.search()">Narrow It Down For Me!</button>
-    </div>
-
-    <!-- found-items should be implemented as a component -->
-	<found-items found="ctrl.matchFoundItems"> <!--on-remove="ctrl.removeItem(index)">-->
-	</found-items>
+  
+    <div class="container" ng-controller="NarrowItDownController as ctrl">
 	
-	<div ng-if="ctrl.matchFoundItems.length > 0">si hay</div>
-	
-	{{ctrl.matchFoundItems[3].name}}
-  </div>
+      <h1>Narrow Down Your Chinese Menu Choice</h1>
 
-</body>
+      <div class="form-group">
+        <input type="text" placeholder="search term" class="form-control" ng-model="ctrl.searchTerm">
+      </div>
+      <div class="form-group narrow-button">
+        <button class="btn btn-primary" ng-click="ctrl.search()">Narrow It Down For Me!</button>
+      </div>
+	  </br></br></br>
+
+	  <found-items found="ctrl.found" on-remove="ctrl.removeItem(index)">
+	  </found-items>
+
+	  <div ng-if="ctrl.found.length == 0">Nothing found</div>
+	
+    </div>
+  </body>
 </html>
